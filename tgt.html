@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>东京猛兽 (Tokyo Beast) 代币经济学信息图表</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 
+        Chosen Palette: Energetic & Playful 
+        Orange: #FF8C00 (深橙色)
+        Yellow: #FFD700 (金色)
+        Pink: #FF69B4 (亮粉色)
+        Teal: #20B2AA (亮水鸭色)
+        Purple: #9370DB (中紫色)
+        Base Background: #F3F4F6 (浅灰色)
+        Card Background: #FFFFFF (白色)
+        Text Primary: #1F2937 (深灰色)
+        Text Secondary: #4B5563 (中灰色)
+    -->
+    <!-- 
+        Infographic Narrative Plan: 
+        1.  项目概览 (Project Overview)
+        2.  TGT 代币核心数据 (TGT Core Token Data)
+        3.  TGT 代币分配 (TGT Token Allocation)
+        4.  核心经济机制 (Core Economic Mechanisms)
+        5.  游戏生态系统 (Game Ecosystem: BASE vs. TRIALS, NFT Proxy)
+        6.  市场定位与潜力 (Market Positioning & Potential)
+        7.  优势与风险 (Strengths & Risks)
+        8.  未来展望 (Future Outlook & Roadmap)
+    -->
+    <!-- 
+        Visualization Choices Summary:
+        - TGT Allocation: Donut Chart (Chart.js Canvas) - Goal: Compare. Justification: Show composition. NO SVG.
+        - Revenue Buyback Flow: HTML/CSS Flow Diagram (Tailwind) - Goal: Organize. Justification: Illustrate process. NO SVG, NO MERMAID JS.
+        - BASE vs TRIALS: HTML/CSS Two-Column Layout (Tailwind) - Goal: Organize. Justification: Compare systems. NO SVG.
+        - Roadmap: HTML/CSS Timeline (Tailwind) - Goal: Organize. Justification: Show sequence. NO SVG, NO MERMAID JS.
+        - Other sections: Styled text, Big Numbers, Lists (HTML/Tailwind). NO SVG.
+        - Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output.
+    -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            background-color: #F3F4F6; /* Base Background */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px; /* Max width for donut chart */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 350px; /* Max height */
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .stat-card {
+            background-color: #FFFFFF; /* Card Background */
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            color: #1F2937; /* Text Primary */
+        }
+        .stat-title {
+            font-size: 0.875rem;
+            color: #4B5563; /* Text Secondary */
+            margin-bottom: 0.5rem;
+        }
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #FF8C00; /* Energetic Orange */
+        }
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1F2937; /* Text Primary */
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .section-intro {
+            font-size: 1rem;
+            color: #4B5563; /* Text Secondary */
+            margin-bottom: 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .card {
+             background-color: #FFFFFF; /* Card Background */
+             border-radius: 0.75rem; /* More rounded */
+             padding: 1.5rem; /* md:p-8 */
+             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); /* Softer shadow */
+             margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .card-title {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            color: #FF8C00; /* Energetic Orange */
+            margin-bottom: 1rem; /* mb-4 */
+        }
+        .highlight-blue { color: #20B2AA; /* Teal */ }
+        .highlight-pink { color: #FF69B4; /* Pink */ }
+        .highlight-purple { color: #9370DB; /* Purple */ }
+        .flow-step {
+            background-color: #E0F2FE; /* Light blue for flow steps */
+            border: 2px solid #20B2AA; /* Teal border */
+            color: #0C4A6E; /* Darker blue text */
+        }
+        .flow-arrow {
+            color: #20B2AA; /* Teal */
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29px; /* Adjust to center with the line */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            background-color: #FF8C00; /* Energetic Orange */
+            border-radius: 50%;
+            border: 3px solid #FFFFFF;
+            z-index: 1;
+        }
+        .timeline-line {
+            position: absolute;
+            left: -20px; /* Adjust to align with before element */
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #FFD700; /* Gold */
+        }
+         /* Custom styles for list items in Strengths/Risks */
+        .strength-item::before {
+            content: '✔';
+            color: #22C55E; /* Green-500 */
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+        .risk-item::before {
+            content: '⚠';
+            color: #EF4444; /* Red-500 */
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 md:p-8">
+
+    <header class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900">东京猛兽 (Tokyo Beast)</h1>
+        <p class="text-xl md:text-2xl text-orange-600">代币经济学深度解析信息图表</p>
+    </header>
+
+    <div class="container mx-auto space-y-12">
+
+        <section id="overview" class="card">
+            <h2 class="section-title">1. 项目概览</h2>
+            <p class="section-intro">东京猛兽 (Tokyo Beast) 旨在构建一个全面的加密娱乐IP生态系统，其核心为东京游戏代币 (TGT)。项目以AAA级游戏品质为目标，融合Web3技术，并获得了日本知名企业的支持。</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="stat-card">
+                    <h3 class="card-title">项目愿景</h3>
+                    <p class="text-gray-700">打造首款旗舰AAA级游戏，设定在2124年的未来东京，玩家操控AI驱动的“猛兽”机器人进行竞技。TGT代币将作为旗下多款高端区块链游戏的通用货币。</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="card-title">主要支持者</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li><span class="font-semibold highlight-blue">SBI集团</span> (大型金融机构)</li>
+                        <li><span class="font-semibold highlight-pink">Cygames</span> (日本顶级游戏开发商)</li>
+                        <li><span class="font-semibold highlight-purple">gumi Inc.</span> (移动游戏与Web3投资)</li>
+                    </ul>
+                    <p class="mt-2 text-sm text-gray-600">运营公司：TOKYO BEAST FZCO (迪拜)</p>
+                    <p class="text-sm text-gray-600">游戏开发：gumi Inc.</p>
+                    <p class="text-sm text-gray-600">区块链技术：Turingum K.K.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="token-data" class="card">
+            <h2 class="section-title">2. TGT 代币核心数据</h2>
+            <p class="section-intro">TGT是东京猛兽生态系统的核心代币，具有明确的供应上限和技术基础，并计划在多家主流交易所上线。</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                <div class="stat-card">
+                    <div class="stat-title">代币符号</div>
+                    <div class="stat-value">TGT</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">最大供应量</div>
+                    <div class="stat-value">10亿</div>
+                    <p class="text-xs text-gray-500">(1,000,000,000)</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">区块链</div>
+                    <div class="stat-value text-lg highlight-teal">Immutable zkEVM</div>
+                    <p class="text-xs text-gray-500">(以太坊 Layer 2)</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">TGE 与首发交易所</div>
+                    <div class="stat-value text-lg highlight-pink">2025年5月21日</div>
+                    <p class="text-xs text-gray-500 mt-1">Binance Alpha, Bybit, KuCoin, MEXC</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="token-allocation" class="card">
+            <h2 class="section-title">3. TGT 代币分配</h2>
+            <p class="section-intro">TGT代币总供应量为10亿枚，其分配策略旨在支持生态系统的长期增长、社区建设和项目发展。</p>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="card-title mb-4 text-center md:text-left">代币分配比例</h3>
+                    <div class="chart-container">
+                        <canvas id="tokenAllocationChart"></canvas>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-700 space-y-2">
+                    <p><strong class="highlight-blue">生态系统增长 (40%):</strong> 主要用于奖励BEAST NFT持有者及未来游戏。</p>
+                    <p><strong class="highlight-pink">基金会 (21.35%):</strong> 支持更广泛的游戏生态系统发展。</p>
+                    <p><strong class="highlight-purple">开发团队 (15%):</strong> 附带长期激励/锁仓计划。</p>
+                    <p><strong class="text-yellow-500">空投与市场营销 (11.27%):</strong> 社区建设和提升项目知名度。</p>
+                    <p><strong class="text-green-500">流动性与上币 (10%):</strong> 确保市场稳定。</p>
+                    <p><strong class="text-indigo-500">早期核心贡献者 (2.15%)</strong></p>
+                    <p><strong class="text-gray-500">顾问 (0.23%)</strong></p>
+                    <p class="mt-4 text-xs text-gray-600">高达40%的代币用于生态系统增长，显示了对社区和长期发展的重视。然而，大规模资金池需要透明的治理和明确的分配标准。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="economic-mechanisms" class="card">
+            <h2 class="section-title">4. 核心经济机制</h2>
+            <p class="section-intro">项目设计了多项核心经济机制以确保TGT代币的价值支撑和生态系统的可持续性，其中最引人注目的是游戏收入回购计划。</p>
+            
+            <div class="mb-8">
+                <h3 class="card-title text-center">15% 游戏收入回购机制</h3>
+                <p class="text-center text-gray-600 mb-6">项目承诺将所有游戏总收入的15%用于回购TGT代币，为奖励池提供资金并避免通胀。这可能为TGT创造一个“需求基石”。</p>
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="flow-step p-4 rounded-lg text-center shadow-md w-full md:w-auto">
+                        <p class="font-semibold text-lg">游戏总收入</p>
+                        <p class="text-sm">(例如: 月入 $19M - $64M)</p>
+                    </div>
+                    <div class="flow-arrow text-4xl font-bold transform md:rotate-0 rotate-90">➔</div>
+                    <div class="flow-step p-4 rounded-lg text-center shadow-md w-full md:w-auto">
+                        <p class="font-semibold text-lg">15% 用于回购</p>
+                        <p class="text-sm">(潜在数百万美元/月)</p>
+                    </div>
+                    <div class="flow-arrow text-4xl font-bold transform md:rotate-0 rotate-90">➔</div>
+                    <div class="flow-step p-4 rounded-lg text-center shadow-md w-full md:w-auto">
+                        <p class="font-semibold text-lg">TGT 代币回购</p>
+                        <p class="text-sm">支持代币价值/奖励池</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mt-8">
+                <div class="stat-card">
+                    <h3 class="card-title">TGT 质押</h3>
+                    <p class="text-gray-700">用户可质押TGT代币以：</p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mt-2">
+                        <li>赚取 <span class="font-semibold highlight-blue">BEAST RAWDISK NFT</span> (可铸造高价值BEAST NFT)。</li>
+                        <li>获得常规TGT代币奖励。</li>
+                        <li>上线活动期间享3倍BEAST NFT掉落率。</li>
+                    </ul>
+                    <p class="mt-2 text-xs text-gray-600">这是早期获取核心游戏资产的主要途径，创造TGT需求。</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="card-title">竞猜机制 (即将推出)</h3>
+                    <p class="text-gray-700">TGT可用于购买 <span class="font-semibold highlight-pink">LUCKY TICKET NFT</span>，锁定后获取 <span class="font-semibold highlight-pink">LUCKY CHIPs</span>，用于对TRIALS锦标赛结果进行竞猜，赢取TGT奖励。</p>
+                    <p class="mt-2 text-xs text-gray-600">此多层系统可能旨在合规和增加用户参与，但也增加了复杂性。</p>
+                </div>
+            </div>
+             <p class="text-center text-gray-600 mt-8 text-sm">TGT还可用于购买游戏内货币 (JEWELS, GEMS) 和物品，并赋予持有者项目治理权 (细节待公布)。</p>
+        </section>
+
+        <section id="game-ecosystem" class="card">
+            <h2 class="section-title">5. 游戏生态系统</h2>
+            <p class="section-intro">东京猛兽采用独特的双轨系统设计，结合Web3资产交互与传统Web2游戏体验，并通过NFT代理模型等创新机制平衡游戏性与资产价值。</p>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="stat-card border-2 border-teal-500">
+                    <h3 class="card-title highlight-blue">"BASE" 系统 (Web3)</h3>
+                    <p class="text-gray-700">专注于Web3资产交互：</p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mt-2">
+                        <li>NFTs (BEAST NFT, BEAST RAWDISK NFT, LUCKY TICKET NFT)</li>
+                        <li>TGT 代币质押</li>
+                        <li>使用 LUCKY CHIPs 进行预测游戏</li>
+                        <li>以优惠价格购买 JEWELS</li>
+                    </ul>
+                </div>
+                <div class="stat-card border-2 border-pink-500">
+                    <h3 class="card-title highlight-pink">"TRIALS" 系统 (Web2)</h3>
+                    <p class="text-gray-700">提供传统免费游戏体验：</p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mt-2">
+                        <li>PvP / PvE 战斗</li>
+                        <li>通过 Gacha 获取 PROXY BEASTs</li>
+                        <li>通过应用商店购买 JEWELS</li>
+                        <li>无需NFT或钱包即可开始游戏</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center text-gray-700 mb-8 font-semibold">TGT 是连接这两个系统的核心货币。这种双轨制旨在降低Web3门槛，吸引传统玩家，逐步引导其探索Web3元素。</p>
+
+            <div class="stat-card mt-8">
+                <h3 class="card-title highlight-purple">BEAST NFT 与 NFT代理模型</h3>
+                <p class="text-gray-700 mb-2">BEAST NFT是游戏核心，其元数据生成游戏内“代理猛兽(proxy BEASTs)”用于战斗。NFT持有者根据代理猛兽的使用频率和表现赚取奖励。</p>
+                <p class="text-gray-700 font-semibold">NFT代理模型优势：</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mt-2">
+                    <li>将资产所有权(NFT)与游戏内效用分离。</li>
+                    <li>允许开发者在不影响NFT属性的情况下平衡游戏。</li>
+                    <li>保护NFT价值，同时为持有者提供可持续奖励。</li>
+                    <li>解决NFT效用常见问题，更像“蓝图”而非直接游戏资产。</li>
+                </ul>
+            </div>
+            <p class="text-center text-gray-600 mt-6 text-sm">游戏内还有JEWELS（用于竞猜和应用内购买）和GEMS（用于抽奖等）两种货币。多种货币体系可能服务于特定战略目的（如合规、经济调控），但也可能增加用户复杂性，需要清晰传达其用途。</p>
+        </section>
+
+        <section id="market-positioning" class="card">
+            <h2 class="section-title">6. 市场定位与潜力</h2>
+            <p class="section-intro">东京猛兽凭借其强大的合作伙伴、明确的目标市场和积极的社区建设策略，展现出显著的市场潜力，特别是在日本及全球Web3游戏领域。</p>
+            <div class="grid md:grid-cols-3 gap-6 text-center">
+                <div class="stat-card">
+                    <div class="stat-title">目标市场</div>
+                    <div class="stat-value text-lg highlight-blue">日本游戏市场</div>
+                    <p class="text-sm text-gray-600">总价值 <span class="font-bold">$274亿</span></p>
+                    <p class="text-sm text-gray-600">移动游戏 <span class="font-bold">$110.4亿</span> (全球第三)</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">预注册用户</div>
+                    <div class="stat-value highlight-pink">100万+</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">上线锦标赛总奖金</div>
+                    <div class="stat-value highlight-purple">$100万</div>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <h3 class="card-title">战略合作与社区参与</h3>
+                <p class="text-gray-700">与 <span class="font-semibold highlight-teal">Immutable</span> 合作实现可扩展性，与 <span class="font-semibold">币安、Bybit</span> 等交易所合作确保流动性。</p>
+                <p class="text-gray-700 mt-2">通过空投 (占TGT总量11.27%)、限量TGT VIP卡 (NFT会员卡) 及Telegram小游戏等活动吸引用户，同时面向Web3用户和传统游戏玩家。</p>
+                <p class="mt-2 text-xs text-gray-600">显著的预注册人数和百万美元锦标赛表明项目方在初期市场推广上投入巨大，并综合运用Web2和Web3的成熟营销方法。</p>
+            </div>
+        </section>
+        
+        <section id="strengths-risks" class="card">
+            <h2 class="section-title">7. 优势与风险</h2>
+            <p class="section-intro">东京猛兽项目展现出多方面优势，但也存在一些潜在风险和需要进一步明确的领域。全面了解这些因素对于评估项目前景至关重要。</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="card-title text-green-600">主要优势 <span class="text-2xl">👍</span></h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="strength-item">强大的行业背景和合作伙伴支持 (SBI, Cygames, gumi)。</li>
+                        <li class="strength-item">创新的15%游戏收入回购机制，保障经济可持续性。</li>
+                        <li class="strength-item">TGT代币在质押、竞猜、购买方面具明确实用价值。</li>
+                        <li class="strength-item">独特的BASE/TRIALS双系统设计，广泛吸纳用户。</li>
+                        <li class="strength-item">初期社区关注度和参与度高 (百万预注册)。</li>
+                        <li class="strength-item">采用可扩展的Layer 2技术 (Immutable zkEVM)。</li>
+                        <li class="strength-item">高达40%代币分配给生态系统增长和奖励。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="card-title text-red-600">潜在风险与待明确领域 <span class="text-2xl">🤔</span></h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="risk-item">团队、基金会、顾问代币的详细锁仓与释放计划缺乏公开信息 (透明度缺陷)。</li>
+                        <li class="risk-item">GEMS货币的完整机制和具体效用尚不清晰。</li>
+                        <li class="risk-item">代币销毁等通缩机制细节仍模糊或仅暗示。</li>
+                        <li class="risk-item">治理模型的具体运作方式未详细阐述。</li>
+                        <li class="risk-item">项目成功高度依赖游戏产品的商业成功和创收能力。</li>
+                        <li class="risk-item">许多核心功能仍标记为“即将推出”，存在执行风险。</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="mt-6 text-sm text-gray-600 text-center">信息不对称（如锁仓计划未明）可能影响投资者信心。项目方需妥善处理这些信息缺口以赢得长期信任。</p>
+        </section>
+
+        <section id="future-outlook" class="card">
+            <h2 class="section-title">8. 未来展望</h2>
+            <p class="section-intro">东京猛兽制定了分阶段的发展路线图，并规划了长期的IP扩展蓝图，旨在构建一个跨媒体的娱乐品牌，进一步巩固TGT的生态核心地位。</p>
+            
+            <div class="relative pl-8">
+                <div class="timeline-line"></div>
+                <div class="mb-12 relative timeline-item">
+                    <h3 class="card-title highlight-orange">第一纪元：孵化期 (2025 Q1-Q3)</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>TGT 代币生成事件 (TGE) 及交易所上线 (2025年5月21日)。</li>
+                        <li>"BASE" 系统上线。</li>
+                        <li>NFT 铸造功能。</li>
+                        <li>全球 "TRIALS" 模式推出。</li>
+                        <li>"TRIALS" 新功能增加。</li>
+                        <li>特别锦标赛举办。</li>
+                    </ul>
+                </div>
+                <div class="mb-8 relative timeline-item">
+                    <h3 class="card-title highlight-teal">第二纪元：蜕变期 (2025 Q3-Q4)</h3>
+                    <p class="text-gray-700">进入新的发展阶段，具体细节待公布，预计将基于第一纪元的成果进行扩展和深化。</p>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <h3 class="card-title highlight-purple">长期IP扩展愿景</h3>
+                <p class="text-gray-700">项目暗示未来计划向动画、时尚、IP联动以及线下活动等领域拓展。</p>
+                <p class="mt-2 text-xs text-gray-600">若游戏IP成功，跨媒体扩张能开辟新收入来源，提升品牌价值，并为TGT生态系统带来更大价值积累。</p>
+            </div>
+            <p class="mt-8 text-center font-semibold text-gray-800">总结：若东京猛兽能实现高品质游戏体验且收入回购模型有效执行，TGT有潜力成为Web3游戏领域的重要代币。但弥补透明度不足、成功执行并持续吸引用户是关键。</p>
+        </section>
+
+    </div>
+
+    <footer class="text-center mt-12 py-8 border-t border-gray-300">
+        <p class="text-sm text-gray-600">&copy; 2025 东京猛兽项目信息图表。基于公开信息分析，不构成投资建议。</p>
+    </footer>
+
+    <script>
+        function wrapText(text, maxWidth) {
+            if (typeof text !== 'string') return text;
+            if (text.length <= maxWidth) return text;
+
+            const words = text.split(' ');
+            let lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length > maxWidth) {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                } else {
+                    currentLine += " " + words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const tokenAllocationData = {
+            labels: [
+                wrapText('生态系统增长', 16), 
+                wrapText('基金会资金', 16), 
+                wrapText('团队与开发', 16), 
+                wrapText('空投与市场营销', 16), 
+                wrapText('流动性与上币', 16), 
+                wrapText('早期核心贡献者', 16), 
+                wrapText('顾问', 16)
+            ],
+            datasets: [{
+                label: 'TGT 代币分配',
+                data: [40, 21.35, 15, 11.27, 10, 2.15, 0.23],
+                backgroundColor: [
+                    '#20B2AA', // Teal
+                    '#FF69B4', // Pink
+                    '#9370DB', // Purple
+                    '#FFD700', // Yellow
+                    '#34D399', // Emerald (alternative for green)
+                    '#60A5FA', // Blue (alternative for indigo)
+                    '#A1A1AA'  // Zinc (alternative for gray)
+                ],
+                borderColor: '#FFFFFF',
+                borderWidth: 2,
+                hoverOffset: 4
+            }]
+        };
+
+        const tokenAllocationConfig = {
+            type: 'doughnut',
+            data: tokenAllocationData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: "'Noto Sans SC', 'Inter', sans-serif",
+                                size: 10
+                            },
+                            padding:10,
+                            usePointStyle: true,
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.map(function(label, i) {
+                                        const meta = chart.getDatasetMeta(0);
+                                        const style = meta.controller.getStyle(i);
+                                        let labelText = Array.isArray(label) ? label.join(' ') : label;
+                                        return {
+                                            text: `${labelText}: ${data.datasets[0].data[i]}%`,
+                                            fillStyle: style.backgroundColor,
+                                            strokeStyle: style.borderColor,
+                                            lineWidth: style.borderWidth,
+                                            hidden: isNaN(data.datasets[0].data[i]) || meta.data[i].hidden,
+                                            index: i,
+                                            pointStyle: 'rectRounded'
+                                        };
+                                    });
+                                }
+                                return [];
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            },
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '%';
+                                }
+                                return label;
+                            }
+                        },
+                        bodyFont: {
+                            family: "'Noto Sans SC', 'Inter', sans-serif"
+                        },
+                        titleFont: {
+                            family: "'Noto Sans SC', 'Inter', sans-serif"
+                        }
+                    }
+                }
+            }
+        };
+
+        window.onload = function() {
+            const ctxTokenAllocation = document.getElementById('tokenAllocationChart');
+            if (ctxTokenAllocation) {
+                 new Chart(ctxTokenAllocation, tokenAllocationConfig);
+            } else {
+                console.error("Canvas element for token allocation chart not found");
+            }
+        };
+    </script>
+</body>
+</html>
