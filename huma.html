@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huma Finance: PayFi 创新者信息图谱</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #FF6F61; /* Accent color */
+            margin-top: 8px;
+        }
+        .stat-card {
+            background-color: #FFFFFF;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 20px;
+            border-left: 2px solid #1E65A7; /* Secondary Blue */
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #FF6F61; /* Accent color */
+            border: 2px solid #FFFFFF;
+        }
+        .founder-card {
+            background-color: #FFFFFF;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .founder-card .header {
+            background-color: #0A2B4C; /* Primary Blue */
+            color: #FFFFFF;
+            padding: 1rem;
+        }
+        .founder-card .body {
+            padding: 1.5rem;
+        }
+        .icon-placeholder {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #1E65A7; /* Secondary Blue */
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- 
+        Infographic Narrative Plan:
+        1. Hero Section: Introduction to Huma Finance as a PayFi innovator.
+        2. $HUMA Tokenomics: Total supply, core utilities, token distribution (Donut Chart), initial circulating supply (Donut Chart).
+        3. Value & Growth: Vesting schedule highlights (HTML/CSS Timeline), value accrual mechanisms.
+        4. Founding Team: Overview of team strength, key founder profiles (Cards).
+        5. Vision & Potential: Market positioning, overall strengths.
+        6. Conclusion: Future outlook.
+
+        Color Palette Chosen: "Deep Ocean Blues & Vibrant Coral"
+        Primary Blue: #0A2B4C
+        Secondary Blue: #1E65A7
+        Accent Color: #FF6F61
+        Neutral/Background: #F8F9FA (Tailwind bg-gray-100)
+        Text Color: #212529 (Tailwind text-gray-800), #FFFFFF
+
+        Visualization Choices Summary:
+        - Token Distribution: Donut Chart (Chart.js) - Goal: Compare/Composition. Justification: Standard for tokenomics. NO SVG.
+        - Initial Circulating Supply: Donut Chart (Chart.js) - Goal: Compare/Composition. Justification: Clear breakdown. NO SVG.
+        - Vesting Schedule: HTML/CSS Timeline - Goal: Organize/Change. Justification: Visual sequence. NO SVG, NO MERMAID JS.
+        - Founder Profiles: HTML/CSS Cards - Goal: Inform/Organize. Justification: Highlights expertise. NO SVG, NO MERMAID JS.
+        - Other data points: Styled text, lists, icons (Unicode). NO SVG, NO MERMAID JS.
+
+        Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output. All visualizations are Chart.js (Canvas) or HTML/CSS.
+    -->
+
+    <nav class="sticky-nav shadow-md">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-[#0A2B4C]">Huma Finance</a>
+            <div class="space-x-4">
+                <a href="#tokenomics" class="text-gray-700 hover:text-[#FF6F61]">代币经济</a>
+                <a href="#team" class="text-gray-700 hover:text-[#FF6F61]">创始团队</a>
+                <a href="#vision" class="text-gray-700 hover:text-[#FF6F61]">愿景潜力</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-[#0A2B4C] text-white py-16 md:py-24">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Huma Finance: 驱动未来的 PayFi 网络</h1>
+            <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto">探索首个收入支持的 DeFi 协议，连接传统金融与去中心化世界的桥梁，为全球支付和融资带来革新。</p>
+            <a href="#tokenomics" class="bg-[#FF6F61] hover:bg-opacity-80 text-white font-semibold py-3 px-8 rounded-lg text-lg transition duration-300">了解更多</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="introduction" class="mb-16">
+            <div class="bg-white rounded-lg shadow-lg p-8 md:p-12">
+                <h2 class="text-3xl font-semibold text-[#0A2B4C] mb-6 section-title">Huma Finance 概览</h2>
+                <p class="text-lg text-gray-700 mb-4">Huma Finance 致力于构建一个创新的支付金融 (PayFi) 网络。它通过利用稳定币和链上流动性，为全球范围内的支付机构提供全天候、高效的支付结算服务。这不仅包括支持跨境支付、信用卡处理和贸易融资等传统用例，还积极推动如 DePIN（去中心化物理基础设施网络）融资等前沿解决方案。</p>
+                <p class="text-lg text-gray-700">项目的核心理念是“收入支持的DeFi”，旨在使金融服务更加普及，让全球的个人和机构都能便捷地使用，从而弥合传统金融与去中心化金融之间的差距。理解其代币经济模型和创始团队的实力，对于评估其长远发展至关重要。</p>
+                 <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="stat-card border-l-4 border-[#1E65A7]">
+                        <div class="icon-placeholder">🌐</div>
+                        <h3 class="text-xl font-semibold text-[#0A2B4C] mb-2">首个 PayFi 网络</h3>
+                        <p class="text-gray-600">引领支付金融创新</p>
+                    </div>
+                    <div class="stat-card border-l-4 border-[#1E65A7]">
+                        <div class="icon-placeholder">🔗</div>
+                        <h3 class="text-xl font-semibold text-[#0A2B4C] mb-2">收入支持的 DeFi</h3>
+                        <p class="text-gray-600">连接真实世界资产</p>
+                    </div>
+                    <div class="stat-card border-l-4 border-[#1E65A7]">
+                        <div class="icon-placeholder">💡</div>
+                        <h3 class="text-xl font-semibold text-[#0A2B4C] mb-2">革新全球支付</h3>
+                        <p class="text-gray-600">高效、普惠的金融服务</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tokenomics" class="mb-16">
+            <h2 class="text-3xl font-semibold text-[#0A2B4C] mb-10 text-center section-title mx-auto">深入 $HUMA 代币经济学</h2>
+            <p class="text-lg text-gray-700 mb-10 text-center max-w-3xl mx-auto">$HUMA 代币是 Huma 生态系统的核心，作为原生实用型和治理型代币，其设计旨在驱动协议增长、激励参与者，并实现价值的可持续积累。</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h3 class="text-2xl font-semibold text-[#1E65A7] mb-6 text-center">代币核心信息</h3>
+                    <div class="stat-card mb-6">
+                        <h4 class="text-4xl font-bold text-[#FF6F61]">100 亿</h4>
+                        <p class="text-gray-600 text-lg">$HUMA 代币总供应量 (上限)</p>
+                    </div>
+                    <h4 class="text-xl font-semibold text-[#0A2B4C] mb-3 mt-6">核心效用:</h4>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><span class="font-semibold">治理:</span> $HUMA 持有者通过质押参与协议决策，投票权与质押期挂钩。</li>
+                        <li><span class="font-semibold">LP 与生态系统奖励:</span> 激励流动性提供者和 PayFi 资产发行方，推动生态增长。</li>
+                        <li><span class="font-semibold">价值增值:</span> 探索利用协议收入加强 PayFi 运动，与社区共享繁荣。</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h3 class="text-2xl font-semibold text-[#1E65A7] mb-6 text-center">$HUMA 代币分配</h3>
+                    <p class="text-gray-600 mb-4 text-center">总供应量为100亿枚，旨在平衡社区激励、生态发展和长期支持。</p>
+                    <div class="chart-container mx-auto h-[300px] md:h-[350px]">
+                        <canvas id="tokenDistributionChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600 text-center">此图表展示了 $HUMA 代币在不同类别中的分配比例，突出了对社区和生态系统发展的重视。</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 items-start">
+                 <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h3 class="text-2xl font-semibold text-[#1E65A7] mb-6 text-center">初始流通供应量构成</h3>
+                    <p class="text-gray-600 mb-4 text-center">币安上市时初始流通供应量约为 17.33 亿枚 (17.33%)。</p>
+                    <div class="chart-container mx-auto h-[300px] md:h-[350px]">
+                        <canvas id="circulatingSupplyChart"></canvas>
+                    </div>
+                     <p class="mt-4 text-sm text-gray-600 text-center">该图表清晰地显示了构成初始流通供应量的各个部分及其百分比。</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h3 class="text-2xl font-semibold text-[#1E65A7] mb-6 text-center">归属时间表亮点</h3>
+                    <p class="text-gray-600 mb-6">Huma 代币的归属计划旨在鼓励长期承诺，确保核心团队、投资者与项目共同成长，并逐步释放激励，维持市场健康。</p>
+                    <div class="space-y-6">
+                        <div class="timeline-item">
+                            <h4 class="font-semibold text-lg text-[#0A2B4C]">团队、顾问与投资者</h4>
+                            <p class="text-gray-700">12个月完全锁仓，随后3年季度线性释放。保障长期利益一致。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4 class="font-semibold text-lg text-[#0A2B4C]">LP 与生态系统激励</h4>
+                            <p class="text-gray-700">通缩的季度释放模型。第二次空投 (2.1%) 于 TGE 后约3个月，之后释放计划每季度衰减7% (可由治理调整)。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4 class="font-semibold text-lg text-[#0A2B4C]">协议金库</h4>
+                            <p class="text-gray-700">1% 于 TGE 时解锁，剩余部分8个季度线性释放。支持未来发展与合作。</p>
+                        </div>
+                    </div>
+                     <p class="mt-6 text-sm text-gray-600">这种精心设计的归属机制有助于减轻早期市场抛压，并激励各方为 Huma Finance 的长期成功做出贡献。</p>
+                </div>
+            </div>
+             <div class="mt-12 bg-white rounded-lg shadow-lg p-8">
+                <h3 class="text-2xl font-semibold text-[#1E65A7] mb-4 text-center">Huma 2.0 与 $PST 代币</h3>
+                <p class="text-lg text-gray-700 text-center max-w-2xl mx-auto">Huma 2.0 在 Solana 上引入了无需许可、合规且可组合的收益平台，提供由真实支付融资活动产生的稳定两位数收益。其推出的 $PST (PayFi Strategy Token) 是一种流动的、带息的 LP 代币，专为 Solana 生态系统内的 DeFi 可组合性而设计，增强了 Huma 生态的广度和深度。</p>
+            </div>
+        </section>
+
+        <section id="team" class="mb-16">
+            <h2 class="text-3xl font-semibold text-[#0A2B4C] mb-10 text-center section-title mx-auto">驱动力量：经验丰富的创始团队</h2>
+            <p class="text-lg text-gray-700 mb-10 text-center max-w-3xl mx-auto">Huma Finance 的成功基石之一是其世界级的创始团队。他们汇集了来自 Google, Facebook, Lyft, Microsoft, Opendoor 和 Earnin 等顶级科技与金融科技公司的深厚经验，在产品、工程、增长和风险管理方面拥有卓越的往绩。</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="founder-card">
+                    <div class="header">
+                        <h3 class="text-xl font-semibold">Erbil Karaman</h3>
+                        <p class="text-sm opacity-80">联合创始人 & (联席)CEO</p>
+                    </div>
+                    <div class="body">
+                        <p class="text-gray-700 mb-1"><span class="font-semibold text-[#1E65A7]">背景:</span> 前 Facebook 产品负责人 (增长), 前 Lyft 产品、消费者与平台负责人, 前 Earnin CPO。</p>
+                        <p class="text-gray-700"><span class="font-semibold text-[#1E65A7]">专长:</span> 产品构建、增长营销、大规模用户获取。多次成功创业经验。</p>
+                        <p class="mt-2 text-sm text-gray-600">为 Huma 带来了世界级的产品视野和市场扩张能力。</p>
+                    </div>
+                </div>
+
+                <div class="founder-card">
+                    <div class="header">
+                        <h3 class="text-xl font-semibold">Richard Liu</h3>
+                        <p class="text-sm opacity-80">联合创始人 & 联席CEO</p>
+                    </div>
+                    <div class="body">
+                        <p class="text-gray-700 mb-1"><span class="font-semibold text-[#1E65A7]">背景:</span> 前 Google 工程总监 (Google Fi 创始人), Leap.ai 联合创始人 (被 Facebook 收购), 前 Earnin CTO。</p>
+                        <p class="text-gray-700"><span class="font-semibold text-[#1E65A7]">专长:</span> 工程技术领导、产品创新、企业管理。Foothill Ventures 风险合伙人。</p>
+                        <p class="mt-2 text-sm text-gray-600">深厚的技术功底和金融科技洞察力，驱动 Huma 的技术架构。</p>
+                    </div>
+                </div>
+
+                <div class="founder-card">
+                    <div class="header">
+                        <h3 class="text-xl font-semibold">Lei Du</h3>
+                        <p class="text-sm opacity-80">联合创始人</p>
+                    </div>
+                    <div class="body">
+                        <p class="text-gray-700 mb-1"><span class="font-semibold text-[#1E65A7]">背景:</span> 前 Microsoft (搜索质量), 前 Opendoor (数据科学与风险负责人), 前 NewsBreak (数据主管), Hupu.com 创始团队。</p>
+                        <p class="text-gray-700"><span class="font-semibold text-[#1E65A7]">专长:</span> 数据科学、风险管理、平台扩展。Sancus Ventures 合伙人。</p>
+                        <p class="mt-2 text-sm text-gray-600">为 Huma 的“收入支持DeFi”模型提供关键的风险评估和数据分析能力。</p>
+                    </div>
+                </div>
+                 <div class="founder-card md:col-span-1 lg:col-span-3">
+                    <div class="header">
+                        <h3 class="text-xl font-semibold">Ji P. (Peng) & Michael Liu</h3>
+                        <p class="text-sm opacity-80">联合创始人</p>
+                    </div>
+                    <div class="body">
+                        <p class="text-gray-700 mb-1"><span class="font-semibold text-[#1E65A7]">Ji P. (Peng):</span> 曾与 Richard Liu 和 Erbil Karaman 在 Earnin 共事，拥有金融科技领域经验和团队协同基础。</p>
+                        <p class="text-gray-700"><span class="font-semibold text-[#1E65A7]">Michael Liu:</span> 作为联合创始人参与项目初创和战略制定。</p>
+                        <p class="mt-2 text-sm text-gray-600">团队的集体智慧和已有合作经验为 Huma Finance 的稳定发展提供了保障。</p>
+                    </div>
+                </div>
+            </div>
+            <p class="mt-10 text-lg text-gray-700 text-center max-w-3xl mx-auto">这个团队将硅谷“大厂”的执行力与专业的金融科技知识以及对 Web3 原则的接纳相结合，为 Huma Finance 构建了一个强大的竞争优势。</p>
+        </section>
+
+        <section id="vision" class="mb-16 bg-white rounded-lg shadow-lg p-8 md:p-12">
+            <h2 class="text-3xl font-semibold text-[#0A2B4C] mb-10 text-center section-title mx-auto">Huma Finance 的愿景与潜力</h2>
+            <p class="text-lg text-gray-700 mb-8 text-center max-w-3xl mx-auto">Huma Finance 不仅仅是一个协议，它代表了 DeFi 发展的新方向——更关注解决真实世界的金融需求，并致力于为主流采用铺平道路。</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-semibold text-[#1E65A7] mb-4">市场定位与目标</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="text-[#FF6F61] mr-2 text-xl">🎯</span>
+                            <span>成为领先的 PayFi 网络，提供比肩甚至超越传统支付网络的开放支付融资解决方案。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#FF6F61] mr-2 text-xl">🌍</span>
+                            <span>通过引入真实世界资产 (RWA) 和收入流作为抵押品，革新链上金融产品。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#FF6F61] mr-2 text-xl">🤝</span>
+                            <span>加强与 Visa 等机构的合作，推动合规性，吸引机构和个人用户。</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-[#1E65A7] mb-4">核心优势</h3>
+                     <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="text-[#FF6F61] mr-2 text-xl">🚀</span>
+                            <span>创新的“收入支持的DeFi”模型，具有广阔的应用前景。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#FF6F61] mr-2 text-xl">📈</span>
+                            <span>精心设计的代币经济学，激励生态增长和长期价值。</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#FF6F61] mr-2 text-xl">👥</span>
+                            <span>世界级的创始团队，具备强大的执行力和行业洞察。</span>
+                        </li>
+                         <li class="flex items-start">
+                            <span class="text-[#FF6F61] mr-2 text-xl">🛡️</span>
+                            <span>重视合规与风险管理，为大规模采用奠定基础。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <p class="mt-10 text-lg text-gray-700 text-center max-w-3xl mx-auto">如果 Huma Finance 能够有效执行其战略，它不仅将验证 RWA 代币化和收入支持型链上金融的可行性，更有可能对整个去中心化金融生态的演进产生深远影响。</p>
+        </section>
+
+        <section id="conclusion" class="text-center py-12">
+            <h2 class="text-3xl font-semibold text-[#0A2B4C] mb-6">展望未来</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8">Huma Finance 正站在金融创新的前沿。凭借其清晰的愿景、强大的技术基础、稳健的代币经济模型以及经验丰富的团队，Huma 有潜力在重塑全球支付和融资格局方面发挥关键作用，推动 DeFi 进入一个更成熟、更普惠的新阶段。</p>
+            <a href="https://huma.finance/" target="_blank" rel="noopener noreferrer" class="bg-[#0A2B4C] hover:bg-opacity-80 text-white font-semibold py-3 px-8 rounded-lg text-lg transition duration-300">访问 Huma Finance 官网</a>
+        </section>
+    </main>
+
+    <footer class="bg-[#0A2B4C] text-white text-center py-8">
+        <p>&copy; <span id="currentYear"></span> Huma Finance 信息图谱。根据公开信息整理，仅供参考。</p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        function processLabel(label, maxLength = 16) {
+            if (typeof label !== 'string' || label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxLength && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            if (currentLine.trim().length > 0) {
+                lines.push(currentLine.trim());
+            }
+            return lines.length > 0 ? lines : [label]; // Fallback if splitting fails
+        }
+
+        const tooltipTitleCallback = function(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            } else {
+              return label;
+            }
+        };
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            family: "'Noto Sans SC', 'Inter', sans-serif",
+                        },
+                        color: '#212529' 
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    bodyFont: {
+                        family: "'Noto Sans SC', 'Inter', sans-serif"
+                    },
+                    titleFont: {
+                        family: "'Noto Sans SC', 'Inter', sans-serif"
+                    }
+                }
+            }
+        };
+        
+        const chartColors = ['#1E65A7', '#FF6F61', '#FFB37C', '#6ABEA7', '#5D5D81', '#F2C8ED', '#A2D2FF'];
+
+
+        const tokenDistributionData = {
+            labels: [
+                processLabel('初始空投 (Initial Airdrop)'), 
+                processLabel('LP 与生态系统激励 (LP & Ecosystem)'), 
+                processLabel('CEX 上市与市场营销'), 
+                processLabel('做市商与链上流动性'), 
+                processLabel('预售 (Pre-Sales)'), 
+                processLabel('投资者 (Investors)'), 
+                processLabel('团队与顾问 (Team & Advisors)'), 
+                processLabel('协议金库 (Protocol Treasury)')
+            ],
+            datasets: [{
+                label: '$HUMA 代币分配',
+                data: [5, 31, 7, 4, 2, 20.6, 19.3, 11.1],
+                backgroundColor: chartColors,
+                borderColor: '#FFFFFF',
+                borderWidth: 2
+            }]
+        };
+        new Chart(document.getElementById('tokenDistributionChart'), {
+            type: 'doughnut',
+            data: tokenDistributionData,
+            options: { ...commonChartOptions }
+        });
+
+        const circulatingSupplyData = {
+            labels: [
+                processLabel('初始空投'), 
+                processLabel('CEX 上市与市场营销'), 
+                processLabel('做市商与链上流动性'), 
+                processLabel('协议金库 (TGE部分)'), 
+                processLabel('战略合作伙伴代币互换'),
+                processLabel('币安 Launchpool (预估)'),
+                processLabel('其他营销拨款 (逐步)')
+            ],
+            datasets: [{
+                label: '初始流通供应构成',
+                data: [5, 7, 4, 1, 0.33, 2.5, 0.9], // 0.9 for 50M+40M = 90M = 0.9% of 10B
+                backgroundColor: chartColors.slice().reverse(),
+                borderColor: '#FFFFFF',
+                borderWidth: 2
+            }]
+        };
+        new Chart(document.getElementById('circulatingSupplyChart'), {
+            type: 'doughnut',
+            data: circulatingSupplyData,
+            options: { ...commonChartOptions }
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Calculate position considering sticky nav height
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+                
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
